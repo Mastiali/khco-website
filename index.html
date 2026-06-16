@@ -1,49 +1,5 @@
 import { useState } from "react";
 
-const demoMember = {
-  code: "1001",
-  fullName: "Demo KHCO Member",
-  studyCondition: "Pre-Graduate",
-  university: "University of Sulaymaniyah",
-  college: "College of Dentistry",
-  birthDate: "2002-01-01",
-  sex: "Female",
-  nationality: "Kurdish",
-  religion: "Muslim",
-  city: "Sulaymaniyah",
-  address: "Anwar Sheikha Medical City",
-  bloodGroup: "A+",
-  phone: "0750 000 0000",
-  email: "member@khco.org",
-  membershipStatus: "Accepted",
-};
-
-function formatDateForPassword(dateString) {
-  if (!dateString) return "";
-  const date = new Date(dateString);
-  if (Number.isNaN(date.getTime())) return "";
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = date.getFullYear();
-  return `${day}${month}${year}`;
-}
-
-function formatBirthDateForView(dateString) {
-  if (!dateString) return "Not available";
-  const date = new Date(dateString);
-  if (Number.isNaN(date.getTime())) return dateString;
-  return date.toLocaleDateString("en-GB");
-}
-
-async function loginDemoMember(code, password) {
-  await new Promise((resolve) => setTimeout(resolve, 250));
-  const expectedPassword = formatDateForPassword(demoMember.birthDate);
-  if (code.trim() === demoMember.code && password.trim() === expectedPassword) {
-    return demoMember;
-  }
-  return null;
-}
-
 function LogoMark() {
   return (
     <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow ring-1 ring-slate-200">
@@ -59,28 +15,20 @@ function LogoMark() {
   );
 }
 
-function InfoCard(props) {
-  return (
-    <div className="rounded-2xl bg-slate-50 p-4">
-      <div className="text-xs uppercase tracking-wide text-slate-500">{props.label}</div>
-      <div className="mt-1 break-words font-semibold text-slate-900">{props.value}</div>
-    </div>
-  );
-}
-
 export default function KHCOWebsite() {
   const [memberCode, setMemberCode] = useState("");
   const [memberPassword, setMemberPassword] = useState("");
   const [loginAttempted, setLoginAttempted] = useState(false);
-  const [selectedMember, setSelectedMember] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handlePortalSubmit = async (e) => {
     e.preventDefault();
     setLoginAttempted(true);
     setIsLoading(true);
-    const member = await loginDemoMember(memberCode, memberPassword);
-    setSelectedMember(member);
+
+    // TODO: Connect this form to Firebase Authentication + Firestore.
+    // No member data should be stored inside this frontend file.
+
     setIsLoading(false);
   };
 
@@ -134,7 +82,7 @@ export default function KHCOWebsite() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-3xl bg-white p-6 shadow">
                 <div className="text-3xl font-extrabold text-emerald-700">65</div>
-                <div className="mt-2 text-sm text-slate-600">Accepted members loaded</div>
+                <div className="mt-2 text-sm text-slate-600">Secure member portal</div>
               </div>
               <div className="rounded-3xl bg-white p-6 shadow">
                 <div className="text-3xl font-extrabold text-emerald-700">24/7</div>
@@ -152,147 +100,23 @@ export default function KHCOWebsite() {
           </div>
         </section>
 
-        <section id="about" className="mx-auto max-w-7xl px-6 py-20">
-          <div className="grid gap-10 lg:grid-cols-2">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">About KHCO</p>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">A central platform for members, services, and healthcare collaboration.</h2>
-            </div>
-            <div className="space-y-6 text-slate-600 leading-8">
-              <div className="grid gap-4 sm:grid-cols-3">
-                <div className="rounded-3xl border border-slate-200 bg-white p-4 text-center shadow-sm">
-                  <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-2xl bg-emerald-100 text-2xl font-bold text-emerald-700">MP</div>
-                  <div className="mt-3 font-semibold text-slate-900">Meer Pshtiwan Taha</div>
-                  <div className="text-sm text-slate-500">President</div>
-                </div>
-                <div className="rounded-3xl border border-slate-200 bg-white p-4 text-center shadow-sm">
-                  <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-2xl bg-emerald-100 text-2xl font-bold text-emerald-700">SA</div>
-                  <div className="mt-3 font-semibold text-slate-900">Sarmad Aras Muhammed</div>
-                  <div className="text-sm text-slate-500">General Manager</div>
-                </div>
-                <div className="rounded-3xl border border-slate-200 bg-white p-4 text-center shadow-sm">
-                  <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-2xl bg-emerald-100 text-2xl font-bold text-emerald-700">DN</div>
-                  <div className="mt-3 font-semibold text-slate-900">Dyari Najmadin Mahmood</div>
-                  <div className="text-sm text-slate-500">Former Administrative Manager</div>
-                </div>
-              </div>
-
-              <p>
-                The Kurdistan Health Care Organization is presented here as a professional digital space where members can stay informed, access services, and follow important announcements.
-              </p>
-              <p>
-                This website design focuses on clarity, trust, and accessibility. It gives KHCO a modern online presence while making it easier for members to find registration information, training opportunities, support services, and organizational news.
-              </p>
-              <div className="rounded-2xl bg-slate-50 p-5">
-                <div className="mb-2 font-semibold text-slate-900">Founders of KHCO</div>
-                <ul className="list-disc space-y-2 pl-5">
-                  <li><strong>Meer Pshtiwan Taha</strong> – President of the Organization</li>
-                  <li><strong>Sarmad Aras Muhammed</strong> – General Manager of the Organization</li>
-                  <li><strong>Dyari Najmadin Mahmood</strong> – Former Administrative Manager</li>
-                </ul>
-              </div>
-              <div className="rounded-2xl bg-slate-50 p-5">
-                <div className="mb-2 font-semibold text-slate-900">Administrative Council</div>
-                <ul className="list-disc space-y-2 pl-5">
-                  <li><strong>Meer Pshtiwan</strong> – President</li>
-                  <li><strong>Nazhoo Mahmood</strong> – Vice President</li>
-                  <li><strong>Sarmad Aras</strong> – General Manager</li>
-                  <li><strong>Shad Jalal</strong> – Vice General Manager</li>
-                  <li><strong>Mstafa Atta</strong> – Activity Manager</li>
-                  <li><strong>Elyan Rafiq</strong> – Courses Manager</li>
-                  <li><strong>Sobhab Ali</strong> – HR Manager</li>
-                  <li><strong>Fatma Ali</strong> – Communication Manager</li>
-                  <li><strong>Aya Kawa</strong> – Registration Manager</li>
-                  <li><strong>Masty Pshtiwan</strong> – Financial Manager</li>
-                  <li><strong>Kavi Sherzad</strong> – Dentlogic Manager</li>
-                  <li><strong>Kardo Obaid</strong> – Media Manager</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="gallery" className="bg-white py-20">
-          <div className="mx-auto max-w-7xl px-6">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">Gallery</p>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">KHCO Activities & Members</h2>
-            <p className="mt-4 max-w-2xl text-slate-600">A glimpse of KHCO events, members, and achievements.</p>
-
-            <div className="mt-10 grid gap-6 md:grid-cols-2">
-              <img src="/images/gallery-1.png" alt="KHCO Activity" className="rounded-3xl shadow-lg" />
-              <img src="/images/gallery-2.png" alt="KHCO Members" className="rounded-3xl shadow-lg" />
-            </div>
-          </div>
-        </section>
-
-        <section id="services" className="bg-white py-20">
-          <div className="mx-auto max-w-7xl px-6">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">Services</p>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">What members can access</h2>
-            <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-slate-900">Member Registration</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">A clear and simple area for healthcare professionals and members to register, update details, and stay connected with the organization.</p>
-              </div>
-              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-slate-900">Medical Insurance Support</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">Members receive benefits including 20% discount at Anwar Sheikha Lab and 7% discount at Anwar Sheikha Pharmacy within Anwar Sheikha Medical City.</p>
-              </div>
-              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-slate-900">Training Courses</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">A section for KHCO courses, workshops, professional development opportunities, and member discounts.</p>
-              </div>
-              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-slate-900">Digital Membership ID</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">Access to digital identification details, verification support, and future hard-copy card updates.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="membership" className="py-20">
-          <div className="mx-auto grid max-w-7xl gap-8 px-6 lg:grid-cols-2">
-            <div className="rounded-[2rem] bg-emerald-600 p-8 text-white shadow-xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-100">Membership</p>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Make membership easy to understand and easy to manage.</h2>
-              <p className="mt-5 max-w-2xl leading-8 text-emerald-50">This section is ideal for membership registration, renewal details, validation deadlines, digital ID guidance, and future member portal access.</p>
-              <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl bg-white/10 p-5">
-                  <div className="font-semibold">Validation &amp; Renewal</div>
-                  <p className="mt-2 text-sm text-emerald-50">Show the current validation date until 01/03/2027, renewal instructions, and important office notices.</p>
-                </div>
-                <div className="rounded-2xl bg-white/10 p-5">
-                  <div className="font-semibold">Digital ID Support</div>
-                  <p className="mt-2 text-sm text-emerald-50">Help members confirm their information before card finalization and printing.</p>
-                </div>
-              </div>
-            </div>
-            <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
-              <h3 className="text-2xl font-bold tracking-tight">Suggested member actions</h3>
-              <ul className="mt-6 space-y-4 text-slate-600">
-                <li className="rounded-2xl bg-slate-50 p-4">Get 20% discount at Anwar Sheikha Lab</li>
-                <li className="rounded-2xl bg-slate-50 p-4">Get 7% discount at Anwar Sheikha Pharmacy</li>
-                <li className="rounded-2xl bg-slate-50 p-4">Check membership validation status until 01/03/2027</li>
-                <li className="rounded-2xl bg-slate-50 p-4">Request support for digital ID issues</li>
-                <li className="rounded-2xl bg-slate-50 p-4">Read medical insurance updates</li>
-                <li className="rounded-2xl bg-slate-50 p-4">Register for training and courses</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
         <section id="portal" className="bg-white py-20">
           <div className="mx-auto grid max-w-7xl gap-8 px-6 lg:grid-cols-2">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">Member Portal</p>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Members can securely access their own data through a protected KHCO portal.</h2>
-              <p className="mt-4 max-w-xl leading-8 text-slate-600">This portal follows a safer publishable structure. The login format can still follow your rule: member code as username and birth date as password in DDMMYYYY format.</p>
+              <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+                Members can securely access their own data through a protected KHCO portal.
+              </h2>
+              <p className="mt-4 max-w-xl leading-8 text-slate-600">
+                This portal is now ready to connect with Firebase Authentication and Firestore. No member database is stored inside the frontend code.
+              </p>
+
               <div className="mt-6 rounded-3xl border border-slate-200 bg-slate-50 p-6">
                 <div className="font-semibold text-slate-900">Login instructions</div>
                 <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
-                  <li>Username: accepted green code number</li>
-                  <li>Password: date of birth in DDMMYYYY format</li>
-                  <li>Example: 1 January 2002 becomes 01012002</li>
+                  <li>Login should be handled by Firebase Authentication</li>
+                  <li>Member data should be loaded from Firestore only after login</li>
+                  <li>Do not use birth dates as passwords</li>
                   <li>Only accepted members should be able to open a profile</li>
                 </ul>
               </div>
@@ -301,131 +125,53 @@ export default function KHCOWebsite() {
             <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-6 shadow-sm">
               <div className="rounded-3xl bg-white p-6 shadow-sm">
                 <h3 className="text-2xl font-bold tracking-tight text-slate-900">Member Login</h3>
-                <p className="mt-2 text-sm leading-7 text-slate-600">Enter your member code and your birth-date password to access your KHCO member profile.</p>
+                <p className="mt-2 text-sm leading-7 text-slate-600">
+                  Firebase login will be connected here before members can access their KHCO profile.
+                </p>
 
                 <form onSubmit={handlePortalSubmit} className="mt-6 space-y-4">
                   <input
                     type="text"
                     value={memberCode}
-                    onChange={(e) => setMemberCode(e.target.value.replace(/\D/g, ""))}
-                    placeholder="Member code"
+                    onChange={(e) => setMemberCode(e.target.value)}
+                    placeholder="Email or member login"
                     className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-emerald-500"
                   />
+
                   <input
                     type="password"
                     value={memberPassword}
-                    onChange={(e) => setMemberPassword(e.target.value.replace(/\D/g, "").slice(0, 8))}
-                    placeholder="Password (DDMMYYYY)"
+                    onChange={(e) => setMemberPassword(e.target.value)}
+                    placeholder="Password"
                     className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-emerald-500"
                   />
-                  <button type="submit" className="w-full rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-700">
+
+                  <button
+                    type="submit"
+                    className="w-full rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-700"
+                  >
                     Open My Data
                   </button>
                 </form>
 
                 {!loginAttempted ? (
                   <div className="mt-6 rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5 text-sm text-slate-500">
-                    Safe preview login: code 1001 and password 01012002.
+                    Firebase login is not connected yet. No member data is stored inside this website file.
                   </div>
                 ) : isLoading ? (
                   <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-sm text-emerald-700">
                     Checking your login details...
                   </div>
-                ) : selectedMember ? (
-                  <div className="mt-6 space-y-4">
-                    <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-medium text-emerald-700">
-                      Login successful. Demo member data is shown below as a preview of the real protected portal.
-                    </div>
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <InfoCard label="Full Name" value={selectedMember.fullName} />
-                      <InfoCard label="Member Code" value={selectedMember.code} />
-                      <InfoCard label="Membership Status" value={selectedMember.membershipStatus} />
-                      <InfoCard label="Birth Date" value={formatBirthDateForView(selectedMember.birthDate)} />
-                      <InfoCard label="Study Condition" value={selectedMember.studyCondition} />
-                      <InfoCard label="Sex" value={selectedMember.sex} />
-                      <InfoCard label="University" value={selectedMember.university} />
-                      <InfoCard label="College" value={selectedMember.college} />
-                      <InfoCard label="City" value={selectedMember.city} />
-                      <InfoCard label="Blood Group" value={selectedMember.bloodGroup} />
-                      <div className="sm:col-span-2"><InfoCard label="Address" value={selectedMember.address || "Not available"} /></div>
-                      <InfoCard label="Phone" value={selectedMember.phone || "Not available"} />
-                      <InfoCard label="Email" value={selectedMember.email || "Not available"} />
-                    </div>
-                  </div>
                 ) : (
-                  <div className="mt-6 rounded-2xl border border-rose-200 bg-rose-50 p-5 text-sm text-rose-700">
-                    Login failed. In the live version, this form should check the code and password against KHCO’s protected database.
+                  <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-700">
+                    Firebase is not connected yet. Add Firebase Authentication and Firestore here before enabling member login.
                   </div>
                 )}
               </div>
             </div>
           </div>
         </section>
-
-        <section id="updates" className="bg-emerald-900 py-20 text-white">
-          <div className="mx-auto max-w-7xl px-6">
-            <div className="max-w-2xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-rose-300">Latest Updates</p>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">A place for official KHCO announcements</h2>
-              <p className="mt-4 leading-8 text-slate-300">This section can be used for office notices, resumed activities, membership announcements, insurance collaborations, and new member benefits.</p>
-            </div>
-            <div className="mt-12 grid gap-6 md:grid-cols-3">
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
-                <h3 className="text-lg font-semibold">Membership Validation Extended</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-300">The membership validation period has been extended until 01/03/2027. Members are encouraged to review their information and report any issues before final printing and verification.</p>
-              </div>
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
-                <h3 className="text-lg font-semibold">Activities Resumed</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-300">KHCO has resumed organizational activities and services following the earlier suspension period. Normal operations are being restored step by step.</p>
-              </div>
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
-                <h3 className="text-lg font-semibold">Member Benefits</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-300">Members may benefit from course discounts, organizational services, and certificate support through KHCO programs.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="contact" className="py-20">
-          <div className="mx-auto grid max-w-7xl gap-8 px-6 lg:grid-cols-2">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">Contact</p>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Let members know where and how to reach KHCO.</h2>
-              <p className="mt-4 max-w-xl leading-8 text-slate-600">Add office contact details, working hours, city branches, email support, and member help information here.</p>
-            </div>
-            <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
-              <div className="grid gap-5 text-sm text-slate-600">
-                <div>
-                  <div className="font-semibold text-slate-900">Main Office</div>
-                  <div>Sulaymaniyah, Kurdistan, Iraq – Anwar Sheikha Medical City</div>
-                </div>
-                <div>
-                  <div className="font-semibold text-slate-900">Email</div>
-                  <div>khca687@gmail.com</div>
-                </div>
-                <div>
-                  <div className="font-semibold text-slate-900">Phone</div>
-                  <div>009647710893838</div>
-                </div>
-                <div>
-                  <div className="font-semibold text-slate-900">Office Hours</div>
-                  <div>Sunday to Thursday, 9:00 AM - 4:00 PM</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
-
-      <footer className="border-t border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-8 md:flex-row md:items-center md:justify-between">
-          <div>
-            <div className="font-bold">KHCO</div>
-            <div className="text-sm text-slate-500">Kurdistan Health Care Organization</div>
-          </div>
-          <div className="text-sm text-slate-500">Designed as a modern, editable website starter for KHCO.</div>
-        </div>
-      </footer>
     </div>
   );
 }
